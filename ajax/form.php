@@ -26,7 +26,8 @@
       <label for="pwd">Password:</label>
       <input type="password" class="form-control" id="password" placeholder="Enter password">
     </div>
-    <button type="button" onclick="save()" class="btn btn-default">Submit</button>
+    <button type="button" onclick="save()" id="insert" class="btn btn-default">Submit</button>
+    <button type="button" onclick="edit()" id="update" class="btn btn-default">Update</button>
   </form><br><br>
 
   <table class="table" border="1" id="show">
@@ -51,6 +52,8 @@
             type : "GET",
             url : 'view.php',
             success:function(res){
+                document.getElementById('update').style.display = "none";
+                
                 document.getElementById('show').innerHTML = res;
             }
         })
@@ -102,13 +105,44 @@
               id : $id
           },
           success:function(res){
-            
+            document.getElementById('insert').style.display = "none";
+            document.getElementById('update').style.display = "block";
             document.getElementById('editid').value = res.id;
             document.getElementById('name').value = res.name;
             document.getElementById('email').value = res.email;
             document.getElementById('password').value = res.password;
           }
         })
+    }
+
+    function edit()
+    {
+        var id = document.getElementById('editid').value;
+        var name = document.getElementById('name').value;
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+
+        $.ajax({
+            type : "POST",
+            url : "edit.php",
+            data : {
+                editid : id,
+                name : name,
+                email : email,
+                password : password
+            },
+            success:function(res){
+              document.getElementById('insert').style.display = "block";
+              document.getElementById('update').style.display = "none";
+              document.getElementById('editid').value = "";
+              document.getElementById('name').value = "";
+              document.getElementById('email').value = "";
+              document.getElementById('password').value = "";
+              alert("record update successfully");
+              viewdata();
+            }
+        })
+
     }
 
 </script>
