@@ -30,9 +30,20 @@
     <button type="button" onclick="edit()" id="update" class="btn btn-default">Update</button>
   </form><br><br>
 
+
+  <input type='text' id='serchname' placeholder='Live search' onkeyup='searchname()'/>
+
+
+
   <table class="table" border="1" id="show">
 
  </table>
+
+ <table class="table" border="1" id="search">
+
+ </table>
+
+ 
 
 </div>
 
@@ -142,7 +153,45 @@
               viewdata();
             }
         })
+    }
 
+    function searchname()
+    {
+      
+        var serchname = document.getElementById('serchname').value;
+        $.ajax({
+            type : "POST",
+            url : 'search.php',
+            data : {
+                sname : serchname
+            },
+            success:function(res){
+                var a = JSON.parse(res);
+                document.getElementById('show').style.display = "none";
+                var tbl = "";
+
+                tbl += `
+                          <tr>
+                            <td>Name</td>
+                            <td>Email</td>
+                            <td>Password</td>
+                          </tr>
+                        `
+
+                for(let i in a)
+                {
+                    tbl += `
+                            <tr>
+                              <td>${a[i].name}</td>
+                              <td>${a[i].email}</td>
+                              <td>${a[i].password}</td>
+                            </tr>
+                          `
+                }
+
+                document.getElementById('search').innerHTML = tbl;
+            }
+        })
     }
 
 </script>

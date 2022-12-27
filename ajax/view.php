@@ -6,6 +6,10 @@
 
     $data = "";
 
+    // $data .= "
+    //             <input type='text' id='serchname' onkeyup='searchname()'/>
+    //         ";
+
     $data .= "<tr>
                     <td>Name</td>
                     <td>Email</td>
